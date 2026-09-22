@@ -28,6 +28,7 @@ import {
   People as PeopleIcon,
   Settings as SettingsIcon,
   Logout as LogoutIcon,
+  Assessment as AssessmentIcon,
 } from '@mui/icons-material';
 
 const drawerWidth = 260;
@@ -61,6 +62,7 @@ const DashboardLayout = () => {
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
     { text: 'Inventory', icon: <InventoryIcon />, path: '/dashboard/inventory' },
     { text: 'Orders', icon: <ShoppingCartIcon />, path: '/dashboard/orders' },
+    { text: 'Reports', icon: <AssessmentIcon />, path: '/dashboard/reports' },
     { text: 'Customers', icon: <PeopleIcon />, path: '/dashboard/customers' },
     { text: 'Settings', icon: <SettingsIcon />, path: '/dashboard/settings' },
   ];
