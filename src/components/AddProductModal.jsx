@@ -13,10 +13,12 @@ import {
   Select,
   MenuItem,
   Divider,
+  Avatar,
 } from '@mui/material';
+import { CloudUpload as CloudUploadIcon } from '@mui/icons-material';
 
 const AddProductModal = ({ open, onClose, onAddProduct, categories, onAddCategory, initialData }) => {
-  const [productForm, setProductForm] = useState({ name: '', category: '', price: '', stock: '' });
+  const [productForm, setProductForm] = useState({ name: '', category: '', price: '', stock: '', image: '' });
   
   // Inline Category Creation State
   const [isAddingCategory, setIsAddingCategory] = useState(false);
@@ -28,10 +30,11 @@ const AddProductModal = ({ open, onClose, onAddProduct, categories, onAddCategor
         name: initialData.name || '',
         category: initialData.category || '',
         price: initialData.price?.toString() || '',
-        stock: initialData.stock?.toString() || ''
+        stock: initialData.stock?.toString() || '',
+        image: initialData.image || ''
       });
     } else {
-      setProductForm({ name: '', category: '', price: '', stock: '' });
+      setProductForm({ name: '', category: '', price: '', stock: '', image: '' });
     }
   }, [initialData, open]);
 
@@ -48,13 +51,13 @@ const AddProductModal = ({ open, onClose, onAddProduct, categories, onAddCategor
       price: parseFloat(productForm.price) || 0,
       stock: parseInt(productForm.stock) || 0,
       status,
-      image: 'https://images.unsplash.com/photo-1584916201218-f4242ceb4809?auto=format&fit=crop&w=100&q=80', // Generic placeholder
+      image: productForm.image || 'https://images.unsplash.com/photo-1584916201218-f4242ceb4809?auto=format&fit=crop&w=100&q=80', // Generic placeholder
     };
 
     onAddProduct(newProduct);
     
     // Reset form
-    setProductForm({ name: '', category: '', price: '', stock: '' });
+    setProductForm({ name: '', category: '', price: '', stock: '', image: '' });
     setIsAddingCategory(false);
   };
 
@@ -72,7 +75,7 @@ const AddProductModal = ({ open, onClose, onAddProduct, categories, onAddCategor
 
   const handleClose = () => {
     onClose();
-    setProductForm({ name: '', category: '', price: '', stock: '' });
+    setProductForm({ name: '', category: '', price: '', stock: '', image: '' });
     setIsAddingCategory(false);
   };
 
@@ -152,6 +155,48 @@ const AddProductModal = ({ open, onClose, onAddProduct, categories, onAddCategor
                value={productForm.stock} 
                onChange={(e) => setProductForm({...productForm, stock: e.target.value})} 
              />
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Button 
+              variant="contained" 
+              component="label" 
+              startIcon={<CloudUploadIcon />}
+              sx={{ 
+                height: 56, 
+                flexGrow: 1, 
+                textTransform: 'none', 
+                bgcolor: '#6D28D9', 
+                color: 'white', 
+                justifyContent: 'center', 
+                px: 2,
+                fontWeight: 600,
+                boxShadow: 'none',
+                '&:hover': {
+                  bgcolor: '#5B21B6',
+                  boxShadow: 'none'
+                }
+              }}
+            >
+              {productForm.image && productForm.image.startsWith('data:') ? 'Change Image' : 'Upload Image from Device...'}
+              <input 
+                type="file" 
+                hidden 
+                accept="image/*" 
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                      setProductForm({...productForm, image: reader.result});
+                    };
+                    reader.readAsDataURL(file);
+                  }
+                }} 
+              />
+            </Button>
+            {productForm.image && (
+              <Avatar src={productForm.image} alt="Preview" variant="rounded" sx={{ width: 56, height: 56, border: '1px solid #e2e8f0' }} />
+            )}
           </Box>
 
         </Box>

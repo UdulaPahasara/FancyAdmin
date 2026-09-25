@@ -7,6 +7,7 @@ import Inventory from './pages/Inventory';
 import Orders from './pages/Orders';
 import Reports from './pages/Reports';
 import Customers from './pages/Customers';
+import Settings from './pages/Settings';
 import './App.css';
 
 function App() {
@@ -27,8 +28,8 @@ function App() {
         {/* Customers Route */}
         <Route path="customers" element={<Customers />} />
         
-        {/* Placeholders for future pages */}
-        <Route path="settings" element={<div style={{ padding: '2rem' }}>Settings Page (Coming Soon)</div>} />
+        {/* Settings Route */}
+        <Route path="settings" element={<Settings />} />
       </Route>
     </Routes>
   );
